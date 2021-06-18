@@ -47,6 +47,10 @@ extension StocksViewerViewController : StocksViewerViewModelDelegate {
         tableView.reloadData()
     }
     
+    func presentNewsModelWith(news: [CryptoNewsModel]) {
+        
+    }
+    
 }
 
 extension StocksViewerViewController: UITableViewDataSource, UITableViewDelegate {

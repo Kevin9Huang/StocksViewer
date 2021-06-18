@@ -30,24 +30,31 @@ class StocksTableViewCell: UITableViewCell {
     
     //MARK: - Public Method
     func configure(with model: CryptoModel) {
+        configureView()
+        
         shortNameLabel.text = model.shortName
         fullNameLabel.text = model.fullName
         priceLabel.text = model.price_usd
-        
         priceChangeLabel.text = "\(model.change24Hour ?? "N/A")(\(model.changePct24Hour ?? "N/A")%)"
-        
-        configureView()
+        if let change = model.changePct24Hour {
+            if change.contains("-") {
+                priceChangeContainerView.backgroundColor = .red
+            }
+            else {
+                priceChangeContainerView.backgroundColor = .green
+            }
+        }
     }
     
     //MARK: - Private Method
     private func configureView() {
         shortNameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        fullNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        fullNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         fullNameLabel.textColor = .gray
         priceLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         priceChangeLabel.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         priceChangeLabel.textColor = .white
-        priceChangeContainerView.backgroundColor = .red
+        priceChangeContainerView.backgroundColor = .green
         priceChangeContainerView.layer.masksToBounds = true
         priceChangeContainerView.layer.cornerRadius = 6
     }
