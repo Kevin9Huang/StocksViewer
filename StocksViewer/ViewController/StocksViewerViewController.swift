@@ -47,8 +47,9 @@ extension StocksViewerViewController : StocksViewerViewModelDelegate {
         tableView.reloadData()
     }
     
-    func presentNewsModelWith(news: [CryptoNewsModel]) {
-        
+    func presentNewsModelVC(with vm: NewsViewModel) {
+        let newsVC = NewsViewController(with: vm)
+        present(newsVC, animated: true, completion: nil)
     }
     
 }
@@ -65,12 +66,13 @@ extension StocksViewerViewController: UITableViewDataSource, UITableViewDelegate
         cell.configure(with: models[indexPath.row])
         return cell
     }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = models[indexPath.row]
-        print("Model Clicked: \(model.fullName ?? "N/A")")
+        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.cellTapped(at: indexPath.row)
     }
 }

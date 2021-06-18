@@ -14,7 +14,12 @@ class StocksTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var priceChangeLabel: UILabel!
     @IBOutlet weak var priceChangeContainerView: UIView!
+    
     static public let cellIdentifier = "StocksTableViewCell"
+    
+    static var nib: UINib {
+        return UINib.init(nibName: StocksTableViewCell.cellIdentifier, bundle: nil)
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -22,10 +27,6 @@ class StocksTableViewCell: UITableViewCell {
         fullNameLabel.text = nil
         priceLabel.text = nil
         priceChangeLabel.text = nil
-    }
-    
-    static var nib: UINib {
-        return UINib.init(nibName: StocksTableViewCell.cellIdentifier, bundle: nil)
     }
     
     //MARK: - Public Method

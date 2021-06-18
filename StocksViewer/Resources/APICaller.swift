@@ -12,7 +12,7 @@ final class APICaller {
     
     private struct Constants {
         static let endPointFetchCrpytoCoins = "https://min-api.cryptocompare.com/data/top/totaltoptiervolfull?limit=50&tsym=USD&ascending=false"
-        static let endPointFetchNewsForCoins = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN"
+        static let endPointFetchNewsForCoins = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN&excludeCategories=Sponsored"
     }
     
     //MARK: - Public Method

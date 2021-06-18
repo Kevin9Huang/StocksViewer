@@ -9,7 +9,7 @@ import Foundation
 
 protocol StocksViewerViewModelDelegate {
     func reloadTableWith(models: [CryptoModel]?)
-    func presentNewsModelWith(news: [CryptoNewsModel])
+    func presentNewsModelVC(with vm: NewsViewModel)
 }
 
 class StocksViewerViewModel {
@@ -21,9 +21,6 @@ class StocksViewerViewModel {
     
     //MARK: - Public Method
     public func onViewDidLoad() {
-        guard let delegate = delegate else {
-            return
-        }
         fetchCoinsData()
     }
     
@@ -42,6 +39,10 @@ class StocksViewerViewModel {
         APICaller.shared.getAllCryptoData {[weak self] result in
             switch result {
             case .success(let models):
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.models = models
                 DispatchQueue.main.async {
                     guard let delegate = self?.delegate else {
                         return
@@ -62,7 +63,8 @@ class StocksViewerViewModel {
                     guard let delegate = self?.delegate else {
                         return
                     }
-                    delegate.presentNewsModelWith(news: newsModel)
+                    let newsVM = NewsViewModel(newsModel: newsModel)
+                    delegate.presentNewsModelVC(with: newsVM)
                 }
             case .failure(let error):
                 print("Failed to get data from api: \(error)")
