@@ -10,6 +10,7 @@ import UIKit
 class StocksViewerViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private var viewModel : StocksViewerViewModel
     private var models : [CryptoModel]
@@ -41,7 +42,6 @@ class StocksViewerViewController: UIViewController {
     }
     
     @objc func pullToRefresh() {
-        print("Pulled to refresh")
         viewModel.pulledToRefresh()
     }
 }
@@ -62,6 +62,17 @@ extension StocksViewerViewController : StocksViewerViewModelDelegate {
     func presentNewsModelVC(with vm: NewsViewModel) {
         let newsVC = NewsViewController(with: vm)
         present(newsVC, animated: true, completion: nil)
+    }
+    
+    func showLoadingIndicator(isShow: Bool) {
+        if isShow {
+            spinner.startAnimating()
+            spinner.isHidden = false
+            
+        } else {
+            spinner.stopAnimating()
+            spinner.isHidden = true
+        }
     }
     
 }

@@ -122,10 +122,10 @@
 			isa = PBXGroup;
 			children = (
 				CC662399267BA3AF00885DDF /* Cell */,
-				CC662385267B65A600885DDF /* Resources */,
 				CC662384267B659300885DDF /* ViewController */,
-				CC662383267B658F00885DDF /* Model */,
 				CC662382267B658800885DDF /* ViewModel */,
+				CC662383267B658F00885DDF /* Model */,
+				CC662385267B65A600885DDF /* Resources */,
 				CC66235B267B649E00885DDF /* Assets.xcassets */,
 				CC662360267B649E00885DDF /* Info.plist */,
 			);
