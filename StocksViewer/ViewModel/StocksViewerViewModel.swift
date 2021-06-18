@@ -8,7 +8,7 @@
 import Foundation
 
 protocol StocksViewerViewModelDelegate {
-    func reloadTableWith(models: [CryptoModel]?)
+    func reloadTableWith(models: [CryptoModel]?, isStopRefresh: Bool)
     func presentNewsModelVC(with vm: NewsViewModel)
 }
 
@@ -21,7 +21,11 @@ class StocksViewerViewModel {
     
     //MARK: - Public Method
     public func onViewDidLoad() {
-        fetchCoinsData()
+        fetchCoinsData(isFromRefresh: false)
+    }
+    
+    public func pulledToRefresh() {
+        fetchCoinsData(isFromRefresh: true)
     }
     
     public func cellTapped(at index: Int) {
@@ -35,8 +39,8 @@ class StocksViewerViewModel {
     }
     
     //MARK: - Private Method
-    private func fetchCoinsData() {
-        APICaller.shared.getAllCryptoData {[weak self] result in
+    private func fetchCoinsData(isFromRefresh: Bool) {
+        APICaller.shared.getCryptoCoinsData {[weak self] result in
             switch result {
             case .success(let models):
                 guard let strongSelf = self else {
@@ -47,7 +51,7 @@ class StocksViewerViewModel {
                     guard let delegate = self?.delegate else {
                         return
                     }
-                    delegate.reloadTableWith(models: models)
+                    delegate.reloadTableWith(models: models, isStopRefresh: isFromRefresh)
                 }
             case .failure(let error):
                 print("Failed to get data from api: \(error)")

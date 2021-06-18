@@ -16,7 +16,7 @@ final class APICaller {
     }
     
     //MARK: - Public Method
-    public func getAllCryptoData(completion: @escaping (Result<[CryptoModel], Error>) -> Void) {
+    public func getCryptoCoinsData(completion: @escaping (Result<[CryptoModel], Error>) -> Void) {
         guard let url = URL(string: Constants.endPointFetchCrpytoCoins) else {
             return
         }

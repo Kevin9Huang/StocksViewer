@@ -13,6 +13,7 @@ class StocksViewerViewController: UIViewController {
     
     private var viewModel : StocksViewerViewModel
     private var models : [CryptoModel]
+    private let refreshControl = UIRefreshControl()
     
     init(with viewModel: StocksViewerViewModel) {
         self.viewModel = viewModel
@@ -33,18 +34,29 @@ class StocksViewerViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(StocksTableViewCell.nib, forCellReuseIdentifier: StocksTableViewCell.cellIdentifier)
-        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         viewModel.onViewDidLoad()
+    }
+    
+    @objc func pullToRefresh() {
+        print("Pulled to refresh")
+        viewModel.pulledToRefresh()
     }
 }
 
 extension StocksViewerViewController : StocksViewerViewModelDelegate {
-    func reloadTableWith(models: [CryptoModel]?) {
+    func reloadTableWith(models: [CryptoModel]?, isStopRefresh: Bool) {
         guard let models = models else {
             return
         }
         self.models = models
         tableView.reloadData()
+        
+        if isStopRefresh {
+            refreshControl.endRefreshing()
+        }
     }
     
     func presentNewsModelVC(with vm: NewsViewModel) {
