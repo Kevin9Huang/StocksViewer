@@ -19,7 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = StocksViewController()
+        let stocksVM = StocksViewerViewModel()
+        let stocksVC = StocksViewerViewController(with: stocksVM)
+        window.rootViewController = UINavigationController(rootViewController: stocksVC)
         window.makeKeyAndVisible()
         self.window = window
     }
