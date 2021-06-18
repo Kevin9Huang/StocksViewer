@@ -49,45 +49,45 @@ class StocksViewerViewModel {
             delegate.showLoadingIndicator(isShow: true)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            APICaller.shared.getCryptoCoinsData {[weak self] result in
-                switch result {
-                case .success(let models):
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.models = models
-                    DispatchQueue.main.async {
-                        delegate.reloadTableWith(models: models, isStopRefresh: isFromRefresh)
-                        
-                    }
-                case .failure(let error):
-                    print("Failed to get data from api: \(error)")
-                }
-                
+        APICaller.shared.getCryptoCoinsData {[weak self] result in
+            switch result {
+            case .success(let models):
                 guard let strongSelf = self else {
                     return
                 }
-                if strongSelf.isShowFirstLoading {
-                    strongSelf.isShowFirstLoading = false
-                    DispatchQueue.main.async {
-                        delegate.showLoadingIndicator(isShow: false)
-                    }
+                strongSelf.models = models
+                DispatchQueue.main.async {
+                    delegate.reloadTableWith(models: models, isStopRefresh: isFromRefresh)
+                    
                 }
-                
+            case .failure(let error):
+                print("Failed to get data from api: \(error)")
             }
+            
+            guard let strongSelf = self else {
+                return
+            }
+            if strongSelf.isShowFirstLoading {
+                strongSelf.isShowFirstLoading = false
+                DispatchQueue.main.async {
+                    delegate.showLoadingIndicator(isShow: false)
+                }
+            }
+            
         }
         
     }
     
     private func fetchCoinNewsWith(name: String) {
-        APICaller.shared.getCyrptoNews(with: name, completion: {[weak self] result in
+        guard let delegate = self.delegate else {
+            return
+        }
+        delegate.showLoadingIndicator(isShow: true)
+        APICaller.shared.getCyrptoNews(with: name, completion: {result in
+            delegate.showLoadingIndicator(isShow: false)
             switch result {
             case .success(let newsModel):
                 DispatchQueue.main.async {
-                    guard let delegate = self?.delegate else {
-                        return
-                    }
                     let newsVM = NewsViewModel(newsModel: newsModel)
                     delegate.presentNewsModelVC(with: newsVM)
                 }

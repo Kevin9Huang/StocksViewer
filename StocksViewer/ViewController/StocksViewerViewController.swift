@@ -65,14 +65,17 @@ extension StocksViewerViewController : StocksViewerViewModelDelegate {
     }
     
     func showLoadingIndicator(isShow: Bool) {
-        if isShow {
-            spinner.startAnimating()
-            spinner.isHidden = false
-            
-        } else {
-            spinner.stopAnimating()
-            spinner.isHidden = true
+        DispatchQueue.main.async {
+            if isShow {
+                self.spinner.startAnimating()
+                self.spinner.isHidden = false
+                
+            } else {
+                self.spinner.stopAnimating()
+                self.spinner.isHidden = true
+            }
         }
+        
     }
     
 }
