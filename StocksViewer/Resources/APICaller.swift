@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum FetchError: Error {
+    case failedToFetch
+    case failedToReadData
+}
+
 final class APICaller {
     static let shared = APICaller()
     
@@ -18,6 +23,7 @@ final class APICaller {
     //MARK: - Public Method
     public func getCryptoCoinsData(completion: @escaping (Result<[CryptoModel], Error>) -> Void) {
         guard let url = URL(string: Constants.endPointFetchCrpytoCoins) else {
+            completion(.failure(FetchError.failedToFetch))
             return
         }
         
@@ -25,6 +31,7 @@ final class APICaller {
             guard let response = response,
                   error == nil else {
                 print("Failed to fetch data")
+                completion(.failure(FetchError.failedToFetch))
                 return
             }
                         
@@ -33,6 +40,7 @@ final class APICaller {
                 let json = try JSONSerialization.jsonObject(with: response, options: [])
                 guard let responseDict = json as? [String: Any],
                       let coinArrayDict = responseDict["Data"] as? [[String: Any]] else {
+                    completion(.failure(FetchError.failedToReadData))
                     return
                 }
                 
@@ -56,6 +64,7 @@ final class APICaller {
     public func getCyrptoNews(with category:String,completion: @escaping (Result<[CryptoNewsModel], Error>) -> Void) {
         let endPointNewsForCoin = Constants.endPointFetchNewsForCoins + "&categories=\(category)"
         guard let url = URL(string: endPointNewsForCoin) else {
+            completion(.failure(FetchError.failedToFetch))
             return
         }
         
@@ -63,6 +72,7 @@ final class APICaller {
             guard let response = response,
                   error == nil else {
                 print("Failed to fetch data")
+                completion(.failure(FetchError.failedToFetch))
                 return
             }
                         
@@ -71,6 +81,7 @@ final class APICaller {
                 let json = try JSONSerialization.jsonObject(with: response, options: [])
                 guard let responseDict = json as? [String: Any],
                       let cryptoNewsDict = responseDict["Data"] as? [[String: Any]] else {
+                    completion(.failure(FetchError.failedToReadData))
                     return
                 }
                 

@@ -8,9 +8,11 @@
 import Foundation
 
 protocol StocksViewerViewModelDelegate {
-    func reloadTableWith(models: [CryptoModel]?, isStopRefresh: Bool)
+    func reloadTableWith(models: [CryptoModel]?)
     func presentNewsModelVC(with vm: NewsViewModel)
     func showLoadingIndicator(isShow: Bool)
+    func showAlertWith(message: String)
+    func stopRefreshControl()
 }
 
 class StocksViewerViewModel {
@@ -44,6 +46,11 @@ class StocksViewerViewModel {
         fetchCoinNewsWith(name: internal_name)
     }
     
+    public func onNetworkErrorReloadButtonTapped() {
+        fetchCoinsData(isFromRefresh: false)
+        estabalishWebSocketConnection()
+    }
+    
     public func onDeinit() {
         WebSocketeManager.shared.stopConnecting()
     }
@@ -65,24 +72,18 @@ class StocksViewerViewModel {
                 }
                 strongSelf.models = models
                 DispatchQueue.main.async {
-                    delegate.reloadTableWith(models: models, isStopRefresh: isFromRefresh)
+                    delegate.reloadTableWith(models: models)
                 }
                 if !strongSelf.isAlreadySetSocketSubscription {
                     strongSelf.setCoinSubsciption()
                 }
             case .failure(let error):
                 print("Failed to get data from api: \(error)")
+                delegate.showAlertWith(message: "Failed to fetch coins")
             }
             
-            guard let strongSelf = self else {
-                return
-            }
-            if strongSelf.isShowFirstLoading {
-                strongSelf.isShowFirstLoading = false
-                DispatchQueue.main.async {
-                    delegate.showLoadingIndicator(isShow: false)
-                }
-            }
+            delegate.showLoadingIndicator(isShow: false)
+            delegate.stopRefreshControl()
         }
     }
     
@@ -92,7 +93,6 @@ class StocksViewerViewModel {
         }
         delegate.showLoadingIndicator(isShow: true)
         APICaller.shared.getCyrptoNews(with: name, completion: {result in
-            delegate.showLoadingIndicator(isShow: false)
             switch result {
             case .success(let newsModel):
                 DispatchQueue.main.async {
@@ -101,11 +101,17 @@ class StocksViewerViewModel {
                 }
             case .failure(let error):
                 print("Failed to get data from api: \(error)")
+                delegate.showAlertWith(message: "Failed to fetch news")
+            }
+            DispatchQueue.main.async {
+                delegate.showLoadingIndicator(isShow: false)
+                delegate.stopRefreshControl()
             }
         })
     }
     
     private func estabalishWebSocketConnection() {
+        WebSocketeManager.shared.stopConnecting()
         WebSocketeManager.shared.startConnecting()
         WebSocketeManager.shared.delegate = self
     }
@@ -148,7 +154,7 @@ class StocksViewerViewModel {
         if let index = modelIndexDict[coinName] {
             models[index].price_usd = "$ \(coinPrice)"
         }
-        delegate?.reloadTableWith(models: models, isStopRefresh: false)
+        delegate?.reloadTableWith(models: models)
     }
 }
 
@@ -165,9 +171,9 @@ extension StocksViewerViewModel: WebSocketMessageDelegate {
                       let type = messageDict["TYPE"] as? String else {
                     return
                 }
-                if type == "2" {
+                if type == "2" { //Ticker message
                     updateModelPriceWith(dict: messageDict)
-                } else if type == "3" {
+                } else if type == "3" { //All subscribe loaded
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         self.setCoinSubsciption()
                     }

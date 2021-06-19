@@ -48,18 +48,21 @@ class StocksViewerViewController: UIViewController {
     deinit {
         viewModel.onDeinit()
     }
+    
 }
 
 extension StocksViewerViewController : StocksViewerViewModelDelegate {
-    func reloadTableWith(models: [CryptoModel]?, isStopRefresh: Bool) {
+    func reloadTableWith(models: [CryptoModel]?) {
         guard let models = models else {
             return
         }
         self.models = models
         tableView.reloadData()
-        
-        if isStopRefresh {
-            refreshControl.endRefreshing()
+    }
+    
+    func stopRefreshControl() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -79,9 +82,7 @@ extension StocksViewerViewController : StocksViewerViewModelDelegate {
                 self.spinner.isHidden = true
             }
         }
-        
     }
-    
 }
 
 extension StocksViewerViewController: UITableViewDataSource, UITableViewDelegate {
@@ -104,5 +105,17 @@ extension StocksViewerViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.cellTapped(at: indexPath.row)
+    }
+    
+    func showAlertWith(message: String) {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Error", message:
+                                                        message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+            
+            self.present(alertController, animated: true) {
+                self.stopRefreshControl()
+            }
+        }
     }
 }
