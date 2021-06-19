@@ -20,10 +20,14 @@ class StocksViewerViewModel {
     //private
     private var models : [CryptoModel]?
     private var isShowFirstLoading = true
+    private var isSocketConnected = false
+    private var isAlreadySetSocketSubscription = false
+    private var modelIndexDict = [String:Int]()
     
     //MARK: - Public Method
     public func onViewDidLoad() {
         fetchCoinsData(isFromRefresh: false)
+        estabalishWebSocketConnection()
     }
     
     public func pulledToRefresh() {
@@ -38,6 +42,10 @@ class StocksViewerViewModel {
             return
         }
         fetchCoinNewsWith(name: internal_name)
+    }
+    
+    public func onDeinit() {
+        WebSocketeManager.shared.stopConnecting()
     }
     
     //MARK: - Private Method
@@ -58,7 +66,9 @@ class StocksViewerViewModel {
                 strongSelf.models = models
                 DispatchQueue.main.async {
                     delegate.reloadTableWith(models: models, isStopRefresh: isFromRefresh)
-                    
+                }
+                if !strongSelf.isAlreadySetSocketSubscription {
+                    strongSelf.setCoinSubsciption()
                 }
             case .failure(let error):
                 print("Failed to get data from api: \(error)")
@@ -73,9 +83,7 @@ class StocksViewerViewModel {
                     delegate.showLoadingIndicator(isShow: false)
                 }
             }
-            
         }
-        
     }
     
     private func fetchCoinNewsWith(name: String) {
@@ -95,6 +103,80 @@ class StocksViewerViewModel {
                 print("Failed to get data from api: \(error)")
             }
         })
+    }
+    
+    private func estabalishWebSocketConnection() {
+        WebSocketeManager.shared.startConnecting()
+        WebSocketeManager.shared.delegate = self
+    }
+    
+    private func setCoinSubsciption() {
+        guard let models = models,
+              !models.isEmpty,
+              isSocketConnected else {
+            return
+        }
+        
+        WebSocketeManager.shared.subscribeTo(models: models)
+        isAlreadySetSocketSubscription = true
+    }
+    
+    private func createModelIndexDict() {
+        guard let models = models,
+              !models.isEmpty else {
+            return
+        }
+        modelIndexDict = [String:Int]()
+        for (index, model) in models.enumerated() {
+            guard let coinName = model.internal_name else {
+                return
+            }
+            modelIndexDict[coinName] = index
+        }
+    }
+    
+    private func updateModelPriceWith(dict: [String:Any]) {
+        guard let models = models,
+              !models.isEmpty,
+              let coinName = dict["FROMSYMBOL"] as? String,
+              let coinPrice = dict["PRICE"] as? Double else {
+            return
+        }
+        if modelIndexDict.isEmpty {
+            createModelIndexDict()
+        }
+        if let index = modelIndexDict[coinName] {
+            models[index].price_usd = "$ \(coinPrice)"
+        }
+        delegate?.reloadTableWith(models: models, isStopRefresh: false)
+    }
+}
+
+extension StocksViewerViewModel: WebSocketMessageDelegate {
+    func onConnected() {
+        isSocketConnected = true
+        setCoinSubsciption()
+    }
+    func receiveMessage(text: String) {
+        if let data = text.data(using: .utf8) {
+            do {
+                let dictonary = try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
+                guard let messageDict = dictonary,
+                      let type = messageDict["TYPE"] as? String else {
+                    return
+                }
+                if type == "2" {
+                    updateModelPriceWith(dict: messageDict)
+                } else if type == "3" {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        self.setCoinSubsciption()
+                    }
+                    
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

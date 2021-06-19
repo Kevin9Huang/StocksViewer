@@ -11,12 +11,13 @@ class CryptoModel {
     public let asset_id : String
     public let shortName : String
     public let fullName: String?
-    public let price_usd: String?
+    public var price_usd: String?
     public let change24Hour: String?
     public let changePct24Hour: String?
     public let internal_name: String?
+    public let lastMarket: String
     
-    init(asset_id: String, shortName: String, fullName: String, price_usd: String, change24Hour: String, changePct24Hour: String, internal_name: String) {
+    init(asset_id: String, shortName: String, fullName: String, price_usd: String, change24Hour: String, changePct24Hour: String, internal_name: String, lastMarket: String) {
         self.asset_id = asset_id
         self.shortName = shortName
         self.fullName = fullName
@@ -24,6 +25,7 @@ class CryptoModel {
         self.changePct24Hour = changePct24Hour
         self.change24Hour = change24Hour
         self.internal_name = internal_name
+        self.lastMarket = lastMarket
     }
     
     static public func createCoin(with dict: [String: Any]) -> CryptoModel? {
@@ -37,7 +39,8 @@ class CryptoModel {
               let price = inUSD["PRICE"] as? String,
               let change24Hour = inUSD["CHANGE24HOUR"] as? String,
               let changePct24Hour = inUSD["CHANGEPCT24HOUR"] as? String,
-              let internal_name = coinInfo["Internal"] as? String else {
+              let internal_name = coinInfo["Internal"] as? String,
+              let lastMarket = inUSD["LASTMARKET"] as? String else {
             return nil
         }
         return CryptoModel(asset_id: id,
@@ -46,6 +49,7 @@ class CryptoModel {
                            price_usd: price,
                            change24Hour: change24Hour,
                            changePct24Hour: changePct24Hour,
-                           internal_name: internal_name)
+                           internal_name: internal_name,
+                           lastMarket: lastMarket)
     }
 }

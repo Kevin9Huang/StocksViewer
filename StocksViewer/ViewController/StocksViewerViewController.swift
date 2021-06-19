@@ -44,6 +44,10 @@ class StocksViewerViewController: UIViewController {
     @objc func pullToRefresh() {
         viewModel.pulledToRefresh()
     }
+    
+    deinit {
+        viewModel.onDeinit()
+    }
 }
 
 extension StocksViewerViewController : StocksViewerViewModelDelegate {
