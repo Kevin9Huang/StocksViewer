@@ -28,12 +28,12 @@ class StocksViewerViewModel {
     
     //MARK: - Public Method
     public func onViewDidLoad() {
-        fetchCoinsData(isFromRefresh: false)
+        fetchCoinsData()
         estabalishWebSocketConnection()
     }
     
     public func pulledToRefresh() {
-        fetchCoinsData(isFromRefresh: true)
+        fetchCoinsData()
     }
     
     public func cellTapped(at index: Int) {
@@ -47,7 +47,7 @@ class StocksViewerViewModel {
     }
     
     public func onNetworkErrorReloadButtonTapped() {
-        fetchCoinsData(isFromRefresh: false)
+        fetchCoinsData()
         estabalishWebSocketConnection()
     }
     
@@ -56,7 +56,7 @@ class StocksViewerViewModel {
     }
     
     //MARK: - Private Method
-    private func fetchCoinsData(isFromRefresh: Bool) {
+    private func fetchCoinsData() {
         guard let delegate = self.delegate else {
             return
         }

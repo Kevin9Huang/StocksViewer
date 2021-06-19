@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7AFA1250F4F3FA76F3FAE537 /* Pods_StocksViewerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 660D1F82159CBCC8922A4843 /* Pods_StocksViewerTests.framework */; };
+		CC41FD26267E2ABC0030D4C1 /* StocksViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC41FD24267E29800030D4C1 /* StocksViewModelTest.swift */; };
+		CC41FD29267E69EE0030D4C1 /* NewsViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC41FD28267E69EE0030D4C1 /* NewsViewModelTest.swift */; };
 		CC4AAC09267C593E0048D8EC /* StocksTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC4AAC08267C593E0048D8EC /* StocksTableViewCell.xib */; };
 		CC4AAC0B267C77530048D8EC /* CryptoNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4AAC0A267C77530048D8EC /* CryptoNewsModel.swift */; };
 		CC4AAC0E267C80A30048D8EC /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4AAC0C267C80A30048D8EC /* NewsViewController.swift */; };
@@ -19,7 +21,6 @@
 		CC662355267B649B00885DDF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC662354267B649B00885DDF /* SceneDelegate.swift */; };
 		CC662357267B649B00885DDF /* StocksViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC662356267B649B00885DDF /* StocksViewerViewController.swift */; };
 		CC66235C267B649E00885DDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC66235B267B649E00885DDF /* Assets.xcassets */; };
-		CC66236A267B649E00885DDF /* StocksViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC662369267B649E00885DDF /* StocksViewerTests.swift */; };
 		CC662375267B649E00885DDF /* StocksViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC662374267B649E00885DDF /* StocksViewerUITests.swift */; };
 		CC662388267B660700885DDF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC662386267B660700885DDF /* LaunchScreen.storyboard */; };
 		CC66238A267B692700885DDF /* StocksViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC662389267B692700885DDF /* StocksViewerViewModel.swift */; };
@@ -58,6 +59,8 @@
 		83E1EDDE813FFF78CD1673AF /* Pods-StocksViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StocksViewer.release.xcconfig"; path = "Target Support Files/Pods-StocksViewer/Pods-StocksViewer.release.xcconfig"; sourceTree = "<group>"; };
 		94AD17310CED0B94D5DD7607 /* Pods-StocksViewer-StocksViewerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StocksViewer-StocksViewerUITests.release.xcconfig"; path = "Target Support Files/Pods-StocksViewer-StocksViewerUITests/Pods-StocksViewer-StocksViewerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C983E604E88F6A96009B74EA /* Pods-StocksViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StocksViewerTests.release.xcconfig"; path = "Target Support Files/Pods-StocksViewerTests/Pods-StocksViewerTests.release.xcconfig"; sourceTree = "<group>"; };
+		CC41FD24267E29800030D4C1 /* StocksViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewModelTest.swift; sourceTree = "<group>"; };
+		CC41FD28267E69EE0030D4C1 /* NewsViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModelTest.swift; sourceTree = "<group>"; };
 		CC4AAC08267C593E0048D8EC /* StocksTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StocksTableViewCell.xib; sourceTree = "<group>"; };
 		CC4AAC0A267C77530048D8EC /* CryptoNewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoNewsModel.swift; sourceTree = "<group>"; };
 		CC4AAC0C267C80A30048D8EC /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -72,7 +75,6 @@
 		CC66235B267B649E00885DDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC662360267B649E00885DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC662365267B649E00885DDF /* StocksViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StocksViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC662369267B649E00885DDF /* StocksViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewerTests.swift; sourceTree = "<group>"; };
 		CC66236B267B649E00885DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC662370267B649E00885DDF /* StocksViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StocksViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC662374267B649E00885DDF /* StocksViewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewerUITests.swift; sourceTree = "<group>"; };
@@ -177,8 +179,9 @@
 		CC662368267B649E00885DDF /* StocksViewerTests */ = {
 			isa = PBXGroup;
 			children = (
-				CC662369267B649E00885DDF /* StocksViewerTests.swift */,
 				CC66236B267B649E00885DDF /* Info.plist */,
+				CC41FD24267E29800030D4C1 /* StocksViewModelTest.swift */,
+				CC41FD28267E69EE0030D4C1 /* NewsViewModelTest.swift */,
 			);
 			path = StocksViewerTests;
 			sourceTree = "<group>";
@@ -504,7 +507,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC66236A267B649E00885DDF /* StocksViewerTests.swift in Sources */,
+				CC41FD26267E2ABC0030D4C1 /* StocksViewModelTest.swift in Sources */,
+				CC41FD29267E69EE0030D4C1 /* NewsViewModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
