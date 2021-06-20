@@ -37,6 +37,18 @@ pod install
 * Fetch news [link](https://min-api.cryptocompare.com/data/v2/news/?lang=EN&excludeCategories=Sponsored)
 * Web Socket End points : wss://streamer.cryptocompare.com/v2
 
+## Further Improvement
+
+### App Improvement
+1. Add more comment for documentation
+2. Add no results view/label when no coin models
+3. Change UIAlertController to more user-friendly interactive when failed/notified
+4. Add reload button when error of no network connection
+
+### Unit Test
+1. Add more test case on StocksViewerViewModel expecially on unhappy path.
+2. Stub API/WebSocket with mock to test network error and failure case (unhappy path)
+
 ## Authors
 
 Kevin Huang
