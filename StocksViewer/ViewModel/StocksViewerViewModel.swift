@@ -25,6 +25,7 @@ class StocksViewerViewModel {
     private var isSocketConnected = false
     private var isAlreadySetSocketSubscription = false
     private var modelIndexDict = [String:Int]()
+    private var isBackFromBackground = false
     
     //MARK: - Public Method
     public func onViewDidLoad() {
@@ -51,8 +52,22 @@ class StocksViewerViewModel {
         estabalishWebSocketConnection()
     }
     
+    public func onViewDidAppear() {
+        if !WebSocketManager.shared.isConnected &&
+            isBackFromBackground {
+            WebSocketManager.shared.startConnecting()
+        }
+    }
+    
+    public func onViewDidDissapear() {
+        if WebSocketManager.shared.isConnected {
+            WebSocketManager.shared.stopConnecting()
+        }
+        isBackFromBackground = true
+    }
+    
     public func onDeinit() {
-        WebSocketeManager.shared.stopConnecting()
+        WebSocketManager.shared.stopConnecting()
     }
     
     //MARK: - Private Method
@@ -111,9 +126,9 @@ class StocksViewerViewModel {
     }
     
     private func estabalishWebSocketConnection() {
-        WebSocketeManager.shared.stopConnecting()
-        WebSocketeManager.shared.startConnecting()
-        WebSocketeManager.shared.delegate = self
+        WebSocketManager.shared.stopConnecting()
+        WebSocketManager.shared.startConnecting()
+        WebSocketManager.shared.delegate = self
     }
     
     private func setCoinSubsciption() {
@@ -123,7 +138,7 @@ class StocksViewerViewModel {
             return
         }
         
-        WebSocketeManager.shared.subscribeTo(models: models)
+        WebSocketManager.shared.subscribeTo(models: models)
         isAlreadySetSocketSubscription = true
     }
     
@@ -173,11 +188,6 @@ extension StocksViewerViewModel: WebSocketMessageDelegate {
                 }
                 if type == "2" { //Ticker message
                     updateModelPriceWith(dict: messageDict)
-                } else if type == "3" { //All subscribe loaded
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.setCoinSubsciption()
-                    }
-                    
                 }
             } catch {
                 print(error.localizedDescription)

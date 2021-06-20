@@ -41,6 +41,16 @@ class StocksViewerViewController: UIViewController {
         viewModel.onViewDidLoad()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        viewModel.onViewDidDissapear()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.onViewDidAppear()
+    }
+    
     @objc func pullToRefresh() {
         viewModel.pulledToRefresh()
     }

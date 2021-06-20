@@ -85,7 +85,7 @@ class StocksViewModelTest: XCTestCase {
             XCTAssert(strongSelf.spyDelegate.isShowLoadingIndicatorCalled)
         }
         
-        XCTAssertNotNil(WebSocketeManager.shared.delegate)
+        XCTAssertNotNil(WebSocketManager.shared.delegate)
     }
     
     func test_pulled_to_refresh() throws {
@@ -112,7 +112,7 @@ class StocksViewModelTest: XCTestCase {
             XCTAssert(strongSelf.spyDelegate.isShowLoadingIndicatorCalled)
         }
         
-        XCTAssertNotNil(WebSocketeManager.shared.delegate)
+        XCTAssertNotNil(WebSocketManager.shared.delegate)
     }
     
     func test_cell_tapped_at() throws {

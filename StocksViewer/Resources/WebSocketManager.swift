@@ -24,13 +24,13 @@ protocol WebSocketMessageDelegate {
     func onConnected()
 }
 
-final class WebSocketeManager {
-    static let shared = WebSocketeManager()
+final class WebSocketManager {
+    static let shared = WebSocketManager()
     
     public var delegate: WebSocketMessageDelegate?
     
     private var socket : WebSocket
-    private var isConnected: Bool = false
+    private(set) var isConnected: Bool = false
     
     private struct Constants {
         static let crytoWebSocketBaseUrl = "wss://streamer.cryptocompare.com/v2"
@@ -71,7 +71,7 @@ final class WebSocketeManager {
     }
 }
 
-extension WebSocketeManager: WebSocketDelegate {
+extension WebSocketManager: WebSocketDelegate {
     func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
         case .connected(let headers):

@@ -85,6 +85,6 @@ class NewsViewModelTest: XCTestCase {
             XCTAssertEqual(newsModelArray[0].source_info_name, "source_info_name")
         }
         
-        XCTAssertNotNil(WebSocketeManager.shared.delegate)
+        XCTAssertNotNil(WebSocketManager.shared.delegate)
     }
 }
