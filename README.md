@@ -7,9 +7,9 @@ StocksViewer is a simple project app that display crypto coin price and coin new
 ## Project Overview
 
 <p float="left" align="middle">
-  <img src="/Screenshot/projectView1.png" width = "257" height = "556" hspace="20"/>
-  <img src="/Screenshot/projectView2.png" width = "257" height = "556" hspace="20"/> 
-  <img src="/Screenshot/projectView3.png" width = "257" height = "556" hspace="20"/>
+  <img src="/Screenshot/projectView1.png" width = "257" height = "556" hspace="10"/>
+  <img src="/Screenshot/projectView2.png" width = "257" height = "556" hspace="10"/> 
+  <img src="/Screenshot/projectView3.png" width = "257" height = "556" hspace="10"/>
 </p>
 
 From the left side:
