@@ -44,6 +44,10 @@ pod install
 2. Add no results view/label when no coin models
 3. Change UIAlertController to more user-friendly interactive when failed/notified
 4. Add reload button when error of no network connection
+5. Add UIBarButtonItem at the top right side of StocksViewController to enable searching for a specific coin
+6. Add UIButton to toogle sort ascending/descending by coin price/coin name
+7. Add UIImage to StocksTableViewCell to display coin image
+8. Add animation when price goes up/down while changing background color (red/green)
 
 ### Unit Test
 1. Add more test case on StocksViewerViewModel expecially on unhappy path.
