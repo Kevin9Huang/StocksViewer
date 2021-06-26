@@ -29,6 +29,9 @@ sudo gem install cocoapods
 pod install
 ```
 
+3. Get your API KEY from [here](https://min-api.cryptocompare.com/documentation/websockets). Place the API Key on WebSocketManager.swift
+Note: Maske sure to check the *Read All Price Streaming and Polling Endpoints*
+
 ## Dependencies
 * [Starscream](https://github.com/daltoniam/Starscream) WebSocket API Library
 
