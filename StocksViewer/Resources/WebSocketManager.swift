@@ -34,7 +34,7 @@ final class WebSocketManager {
     
     private struct Constants {
         static let crytoWebSocketBaseUrl = "wss://streamer.cryptocompare.com/v2"
-        static let webSocketAPIKey = "6bc0a86dca466db14d43c1695414dd81ded6bfe2911ec22cefc0b1be460247fb"
+        static let webSocketAPIKey = "<<YOUR_API_KEY_HERE>>"
     }
     
     init() {
